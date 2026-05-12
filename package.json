@@ -1,5 +1,5 @@
 {
-  "name": "suitener-repo",
+  "name": "suitener",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -9,7 +9,9 @@
     "build": "bun run --filter '*' build",
     "test": "bun test",
     "typecheck": "bunx tsc --noEmit",
-    "cli": "bun run packages/cli/src/index.ts"
+    "cli": "bun run packages/cli/src/index.ts",
+    "dev": "bun run packages/cli/src/index.ts wrap \"bun run dev:raw\"",
+    "dev:raw": "bun --watch packages/cli/src/index.ts --quiet"
   },
   "devDependencies": {
     "@types/bun": "latest",

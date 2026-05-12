@@ -11,7 +11,8 @@ export interface WrapHandle {
 export async function wrap(command: string, options: WrapOptions = {}): Promise<WrapHandle> {
   const cwd = options.cwd ?? process.cwd();
   const testRun = introspect(cwd).then(runTests);
-  testRun.then((result) => options.onTestComplete?.(result));
+  const result = await testRun;
+  options.onTestComplete?.(result);
 
   const child = Bun.spawn(shellCommand(command), {
     cwd,

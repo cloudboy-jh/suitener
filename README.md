@@ -33,7 +33,7 @@ bun install -g suitener
 Library usage:
 
 ```bash
-bun add @suitener/core
+bun add @cloudboyredex/suitener-core
 ```
 
 ## Usage
@@ -44,16 +44,41 @@ Run against the current directory:
 suitener
 ```
 
+Explicit check command:
+
+```bash
+suitener check
+```
+
 Run against a specific backend:
 
 ```bash
 suitener ./path/to/backend
 ```
 
+Inspect without running tests:
+
+```bash
+suitener inspect ./path/to/backend
+```
+
+Force stub generation:
+
+```bash
+suitener stubs ./path/to/backend
+```
+
 Emit JSON only:
 
 ```bash
 suitener --json
+```
+
+Quiet or verbose output:
+
+```bash
+suitener --quiet
+suitener --verbose
 ```
 
 Wrap a dev command:
@@ -152,7 +177,7 @@ Suitener does not guess real assertions. That gets noisy fast and makes agents i
 Config is optional. If present, Suitener loads `suitener.config.ts` natively through Bun.
 
 ```ts
-import { defineConfig } from "@suitener/core";
+import { defineConfig } from "@cloudboyredex/suitener-core";
 
 export default defineConfig({
   target: "./src",
@@ -166,7 +191,7 @@ Defaults are enough for the v1 happy path.
 ## Core API
 
 ```ts
-import { introspect, runTests, generateStubs, wrap } from "@suitener/core";
+import { introspect, runTests, generateStubs, wrap } from "@cloudboyredex/suitener-core";
 
 const project = await introspect("./");
 const results = await runTests(project);
@@ -193,9 +218,47 @@ Exported API:
 Normal output uses a minimal pink, blue, and green ANSI colorway.
 
 ```text
-suitener http_server /path/to/backend
-existing 12 tests, 10 passing, 2 failed
-failed in 340ms → suitener-results/latest.json
+passed  12 tests / 12 pass / 0 fail
+
+summary
+  project  backend
+  suite    existing
+  time     290ms
+  report   suitener-results/latest.json
+```
+
+Failure output stays short:
+
+```text
+failed  12 tests / 10 pass / 2 fail
+
+summary
+  project  backend
+  suite    existing
+  time     340ms
+  error    api.test.ts
+  report   suitener-results/latest.json
+```
+
+Inspect output:
+
+```text
+inspect
+
+summary
+  project  backend
+  kind     http_server
+  tests    found
+  command  bun run test
+```
+
+Verbose output appends a dev block:
+
+```text
+dev
+  target   /absolute/path/to/backend
+  files    24
+  signals  express import
 ```
 
 `--json` disables decoration and prints only machine-readable JSON.
@@ -206,7 +269,7 @@ failed in 340ms → suitener-results/latest.json
 suitener wrap "bun run dev"
 ```
 
-Wrap mode starts a passive test run and launches the wrapped command with normal stdio. Results are still written to `./suitener-results/latest.json`.
+Wrap mode runs a test check first, prints one Suitener summary line, then launches the wrapped command with normal stdio. Results are still written to `./suitener-results/latest.json`.
 
 Signals propagate to the child process, so Ctrl-C behaves like it should.
 
@@ -253,7 +316,7 @@ bun build packages/cli/src/index.ts --compile --outfile dist/suitener
 ```text
 suitener/
 ├── packages/
-│   ├── core/   # @suitener/core
+│   ├── core/   # @cloudboyredex/suitener-core
 │   └── cli/    # suitener binary
 ├── Spec.md
 └── suitener-logo.png
@@ -265,7 +328,7 @@ In scope for v0.1:
 
 - Bun-native TypeScript CLI
 - Single compiled binary via `bun build --compile`
-- Core library at `@suitener/core`
+- Core library at `@cloudboyredex/suitener-core`
 - Backend type detection
 - Existing test suite detection
 - Existing test execution

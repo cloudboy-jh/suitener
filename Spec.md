@@ -6,7 +6,7 @@
 
 Suitener is a TypeScript CLI built on Bun that introspects a backend codebase and either runs its existing test suite or generates sensible test stubs from the folder structure and interface shape. It can also wrap dev scripts to surface a passive test-health summary on every start. Built for speed, structured output, and easy agent ingestion.
 
-Ships as a single compiled binary via `bun build --compile`, plus a library at `@suitener/core` for programmatic use.
+Ships as a single compiled binary via `bun build --compile`, plus a library at `@cloudboyredex/suitener-core` for programmatic use.
 
 The name: test **suite** + sw**eetener** — makes testing less bitter.
 
@@ -41,7 +41,7 @@ Cargo isn't in the picture. npm-via-Node isn't in the picture. Bun is the runtim
 **In scope:**
 
 - TypeScript CLI compiled to a single binary via `bun build --compile`
-- `@suitener/core` library for programmatic use; CLI is a thin wrapper around it
+- `@cloudboyredex/suitener-core` library for programmatic use; CLI is a thin wrapper around it
 - Backend type detection (CLI tool, library, HTTP server)
 - Existing test suite detection and execution
 - Generated test stubs when no suite exists, written to `./suitener-stubs/`
@@ -99,7 +99,7 @@ Anything more ambitious means Suitener is guessing at intent, which gets wrong f
 suitener wrap "bun run dev"
 ```
 
-Runs the wrapped command transparently and prepends a one-line summary on start: `12 tests, 10 passing, last failure 4m ago in POST /enrich`. Tests run async; results land in `./suitener-results/latest.json`. Agents poll that file.
+Runs a test check first, prints a one-line summary on start (`12 tests, 10 passing, last failure in POST /enrich`), then runs the wrapped command transparently. Results land in `./suitener-results/latest.json`. Agents poll that file.
 
 Signal handling (Ctrl-C, SIGTERM) propagates cleanly to the wrapped process. Output is not interleaved — wrap output prints once on start, then the wrapped command takes over the terminal normally.
 
@@ -134,7 +134,7 @@ JSON schema (sketch):
 Optional `suitener.config.ts` at the project root, loaded natively by Bun:
 
 ```ts
-import { defineConfig } from "@suitener/core";
+import { defineConfig } from "@cloudboyredex/suitener-core";
 
 export default defineConfig({
   target: "./src",
@@ -154,14 +154,14 @@ Pink, blue, green only — no other colors. ANSI codes, no TUI framework. Three-
 ```
 suitener/
 ├── packages/
-│   ├── core/           → @suitener/core   (library, the actual logic)
+│   ├── core/           → @cloudboyredex/suitener-core   (library, the actual logic)
 │   └── cli/            → suitener          (CLI binary, thin wrapper around core)
 ```
 
-`@suitener/core` exports:
+`@cloudboyredex/suitener-core` exports:
 
 ```ts
-import { introspect, runTests, generateStubs, wrap } from "@suitener/core";
+import { introspect, runTests, generateStubs, wrap } from "@cloudboyredex/suitener-core";
 
 const project = await introspect("./");
 const results = await runTests(project);
@@ -191,16 +191,16 @@ No dependencies beyond Bun's standard library if possible.
 
 ```bash
 bun install -g suitener           # CLI binary
-bun add @suitener/core            # library consumers
+bun add @cloudboyredex/suitener-core   # library consumers
 ```
 
-Build pipeline: `bun build --compile` on tag push, attach binaries to GitHub Releases for direct download fallback. Both `suitener` and `@suitener/core` published to npm. Bun handles platform resolution at install time.
+Build pipeline: `bun build --compile` on tag push, attach binaries to GitHub Releases for direct download fallback. Both `suitener` and `@cloudboyredex/suitener-core` published to npm. Bun handles platform resolution at install time.
 
 ## Repo and packages
 
 - GitHub: `cloudboy-jh/suitener`
 - npm CLI: `suitener`
-- npm library: `@suitener/core`
+- npm library: `@cloudboyredex/suitener-core`
 - License: MIT
 - Versioning: semver, start at `0.1.0`, stay in `0.x` until the core API feels stable
 

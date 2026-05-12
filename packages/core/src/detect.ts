@@ -1,4 +1,4 @@
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import type { ProjectIntrospection, ProjectType, ResolvedSuitenerConfig, ScannedFile, TestCommand } from "./types";
 import { scanFiles, isEntrypoint } from "./fs";
 
@@ -18,6 +18,7 @@ export async function introspect(root = ".", config?: ResolvedSuitenerConfig): P
   const testCommand = detectTestCommand(files, packageJson, testFiles);
 
   return {
+    name: detectProjectName(resolvedConfig.target, packageJson),
     root: resolvedConfig.root,
     target: resolvedConfig.target,
     projectType,
@@ -28,6 +29,11 @@ export async function introspect(root = ".", config?: ResolvedSuitenerConfig): P
     indicators,
     config: resolvedConfig
   };
+}
+
+function detectProjectName(target: string, packageJson: Record<string, unknown> | undefined): string {
+  if (typeof packageJson?.name === "string" && packageJson.name.trim()) return packageJson.name;
+  return basename(target) || target;
 }
 
 async function readPackageJson(root: string): Promise<Record<string, unknown> | undefined> {

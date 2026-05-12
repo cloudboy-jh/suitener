@@ -29,6 +29,7 @@ export interface TestCommand {
 }
 
 export interface ProjectIntrospection {
+  name: string;
   root: string;
   target: string;
   projectType: ProjectType;
@@ -49,6 +50,7 @@ export interface TestResult {
 
 export interface SuitenerResult {
   run_id: string;
+  project_name: string;
   target: string;
   project_type: ProjectType;
   mode: RunMode;
@@ -59,6 +61,11 @@ export interface SuitenerResult {
     duration_ms: number;
   };
   tests: TestResult[];
+  paths?: {
+    run: string;
+    latest: string;
+  };
+  generated_files?: string[];
   raw_output?: {
     stdout: string;
     stderr: string;

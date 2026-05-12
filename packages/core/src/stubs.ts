@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { ProjectIntrospection, SuitenerResult, TestResult } from "./types";
-import { createRunId, writeResults } from "./results";
+import { createRunId, relativePath, writeResults } from "./results";
 
 export async function generateStubs(project: ProjectIntrospection): Promise<SuitenerResult> {
   const start = performance.now();
@@ -9,16 +9,23 @@ export async function generateStubs(project: ProjectIntrospection): Promise<Suit
   await mkdir(dir, { recursive: true });
 
   const stubs = buildStubs(project);
-  for (const stub of stubs) await writeFile(join(dir, stub.name), stub.content, "utf8");
+  const generatedFiles: string[] = [];
+  for (const stub of stubs) {
+    const path = join(dir, stub.name);
+    await writeFile(path, stub.content, "utf8");
+    generatedFiles.push(relativePath(project.root, path));
+  }
 
   const tests: TestResult[] = stubs.map((stub) => ({ name: stub.name, status: "skip", duration_ms: 0 }));
   const result: SuitenerResult = {
     run_id: createRunId(),
+    project_name: project.name,
     target: project.target,
     project_type: project.projectType,
     mode: "generated",
     summary: { total: tests.length, passed: 0, failed: 0, duration_ms: Math.round(performance.now() - start) },
-    tests
+    tests,
+    generated_files: generatedFiles
   };
   await writeResults(project, result);
   return result;

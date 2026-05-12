@@ -25,6 +25,7 @@ export async function runTests(project: ProjectIntrospection): Promise<SuitenerR
   const passed = status === "pass" ? tests.length : 0;
   const result: SuitenerResult = {
     run_id: createRunId(),
+    project_name: project.name,
     target: project.target,
     project_type: project.projectType,
     mode: "existing",
