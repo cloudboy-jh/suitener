@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./suitener-logo.png" alt="Suitener" width="760" />
+  <img src="./suitener-logo-readme.png" alt="Suitener" width="760" />
 </p>
 
 <p align="center">
