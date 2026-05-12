@@ -1,0 +1,14 @@
+{
+  "name": "suitener",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "suitener": "./src/index.ts"
+  },
+  "dependencies": {
+    "@suitener/core": "workspace:*"
+  },
+  "scripts": {
+    "build": "bun build src/index.ts --compile --outfile dist/suitener"
+  }
+}
