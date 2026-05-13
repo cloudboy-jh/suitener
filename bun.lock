@@ -9,30 +9,30 @@
       },
     },
     "packages/cli": {
-      "name": "suitener",
-      "version": "0.1.0",
+      "name": "suitener-test",
+      "version": "0.1.2",
       "bin": {
         "suitener": "./src/index.ts",
       },
       "dependencies": {
-        "@cloudboyredex/suitener-core": "workspace:*",
+        "suitener-core": "0.1.2",
       },
     },
     "packages/core": {
-      "name": "@cloudboyredex/suitener-core",
-      "version": "0.1.0",
+      "name": "suitener-core",
+      "version": "0.1.2",
     },
   },
   "packages": {
-    "@cloudboyredex/suitener-core": ["@cloudboyredex/suitener-core@workspace:packages/core"],
-
     "@types/bun": ["@types/bun@1.3.13", "", { "dependencies": { "bun-types": "1.3.13" } }, "sha512-9fqXWk5YIHGGnUau9TEi+qdlTYDAnOj+xLCmSTwXfAIqXr2x4tytJb43E9uCvt09zJURKXwAtkoH4nLQfzeTXw=="],
 
     "@types/node": ["@types/node@25.7.0", "", { "dependencies": { "undici-types": "~7.21.0" } }, "sha512-z+pdZyxE+RTQE9AcboAZCb4otwcrvgHD+GlBpPgn0emDVt0ohrTMhAwlr2Wd9nZ+nihhYFxO2pThz3C5qSu2Eg=="],
 
     "bun-types": ["bun-types@1.3.13", "", { "dependencies": { "@types/node": "*" } }, "sha512-QXKeHLlOLqQX9LgYaHJfzdBaV21T63HhFJnvuRCcjZiaUDpbs5ED1MgxbMra71CsryN/1dAoXuJJJwIv/2drVA=="],
 
-    "suitener": ["suitener@workspace:packages/cli"],
+    "suitener-core": ["suitener-core@workspace:packages/core"],
+
+    "suitener-test": ["suitener-test@workspace:packages/cli"],
 
     "typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 

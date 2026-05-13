@@ -1,4 +1,4 @@
-import { wrap as coreWrap } from "@cloudboyredex/suitener-core";
+import { wrap as coreWrap } from "suitener-core";
 import type { CliArgs } from "../args";
 import { renderWrapSummary } from "../output/render";
 

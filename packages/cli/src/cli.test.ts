@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import type { ProjectIntrospection, SuitenerResult } from "@cloudboyredex/suitener-core";
+import type { ProjectIntrospection, SuitenerResult } from "suitener-core";
 import { parseArgs } from "./args";
 import { renderCheck, renderInspect, renderStubs, renderWrapSummary } from "./output/render";
 

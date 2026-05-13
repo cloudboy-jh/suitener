@@ -1,4 +1,4 @@
-import type { ProjectIntrospection, SuitenerResult } from "@cloudboyredex/suitener-core";
+import type { ProjectIntrospection, SuitenerResult } from "suitener-core";
 import { color } from "./colors";
 
 export interface RenderOptions {

@@ -1,4 +1,4 @@
-import { generateStubs, introspect } from "@cloudboyredex/suitener-core";
+import { generateStubs, introspect } from "suitener-core";
 import type { CliArgs } from "../args";
 import { renderStubs } from "../output/render";
 

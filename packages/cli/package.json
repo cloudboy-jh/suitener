@@ -1,12 +1,12 @@
 {
-  "name": "suitener-cli",
-  "version": "0.1.1",
+  "name": "suitener-test",
+  "version": "0.1.2",
   "type": "module",
   "bin": {
     "suitener": "./src/index.ts"
   },
   "dependencies": {
-    "@cloudboyredex/suitener-core": "workspace:*"
+    "suitener-core": "0.1.2"
   },
   "scripts": {
     "build": "bun build src/index.ts --compile --outfile dist/suitener"

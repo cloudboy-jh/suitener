@@ -27,13 +27,13 @@ suitener wrap "bun run dev"
 ## Install
 
 ```bash
-bun install -g suitener
+bun install -g suitener-test
 ```
 
 Library usage:
 
 ```bash
-bun add @cloudboyredex/suitener-core
+bun add suitener-core
 ```
 
 ## Usage
@@ -177,7 +177,7 @@ Suitener does not guess real assertions. That gets noisy fast and makes agents i
 Config is optional. If present, Suitener loads `suitener.config.ts` natively through Bun.
 
 ```ts
-import { defineConfig } from "@cloudboyredex/suitener-core";
+import { defineConfig } from "suitener-core";
 
 export default defineConfig({
   target: "./src",
@@ -191,7 +191,7 @@ Defaults are enough for the v1 happy path.
 ## Core API
 
 ```ts
-import { introspect, runTests, generateStubs, wrap } from "@cloudboyredex/suitener-core";
+import { introspect, runTests, generateStubs, wrap } from "suitener-core";
 
 const project = await introspect("./");
 const results = await runTests(project);
@@ -316,7 +316,7 @@ bun build packages/cli/src/index.ts --compile --outfile dist/suitener
 ```text
 suitener/
 ├── packages/
-│   ├── core/   # @cloudboyredex/suitener-core
+│   ├── core/   # suitener-core
 │   └── cli/    # suitener binary
 ├── Spec.md
 └── suitener-logo.png
@@ -328,7 +328,7 @@ In scope for v0.1:
 
 - Bun-native TypeScript CLI
 - Single compiled binary via `bun build --compile`
-- Core library at `@cloudboyredex/suitener-core`
+- Core library at `suitener-core`
 - Backend type detection
 - Existing test suite detection
 - Existing test execution

@@ -1,4 +1,4 @@
-import { introspect, runTests } from "@cloudboyredex/suitener-core";
+import { introspect, runTests } from "suitener-core";
 import type { CliArgs } from "../args";
 import { renderCheck } from "../output/render";
 

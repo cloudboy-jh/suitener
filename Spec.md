@@ -6,7 +6,7 @@
 
 Suitener is a TypeScript CLI built on Bun that introspects a backend codebase and either runs its existing test suite or generates sensible test stubs from the folder structure and interface shape. It can also wrap dev scripts to surface a passive test-health summary on every start. Built for speed, structured output, and easy agent ingestion.
 
-Ships as a single compiled binary via `bun build --compile`, plus a library at `@cloudboyredex/suitener-core` for programmatic use.
+Ships as a single compiled binary via `bun build --compile`, plus a library at `suitener-core` for programmatic use.
 
 The name: test **suite** + sw**eetener** — makes testing less bitter.
 
@@ -32,7 +32,7 @@ Bun is load-bearing here, not decorative:
 - **Test execution for JS/TS backends.** When Suitener targets a TS/JS backend — which is most of what gittrix and glib-code are — Bun is the runtime that actually executes the user's tests. Fast startup, native TS, built-in test primitives.
 - **Process supervision for `wrap`.** `Bun.spawn` with streaming stdio is the right tool for wrapping dev scripts. Faster startup matters when the harness runs on every dev session.
 - **Single-binary distribution.** `bun build --compile` produces one standalone executable. No runtime install, no postinstall scripts, no node-gyp.
-- **One install command.** `bun install -g suitener`. That's the whole distribution story.
+- **One install command.** `bun install -g suitener-test`. That's the temporary distribution story.
 
 Cargo isn't in the picture. npm-via-Node isn't in the picture. Bun is the runtime, the build tool, and the distribution channel.
 
@@ -41,7 +41,7 @@ Cargo isn't in the picture. npm-via-Node isn't in the picture. Bun is the runtim
 **In scope:**
 
 - TypeScript CLI compiled to a single binary via `bun build --compile`
-- `@cloudboyredex/suitener-core` library for programmatic use; CLI is a thin wrapper around it
+- `suitener-core` library for programmatic use; CLI is a thin wrapper around it
 - Backend type detection (CLI tool, library, HTTP server)
 - Existing test suite detection and execution
 - Generated test stubs when no suite exists, written to `./suitener-stubs/`
@@ -134,7 +134,7 @@ JSON schema (sketch):
 Optional `suitener.config.ts` at the project root, loaded natively by Bun:
 
 ```ts
-import { defineConfig } from "@cloudboyredex/suitener-core";
+import { defineConfig } from "suitener-core";
 
 export default defineConfig({
   target: "./src",
@@ -154,14 +154,14 @@ Pink, blue, green only — no other colors. ANSI codes, no TUI framework. Three-
 ```
 suitener/
 ├── packages/
-│   ├── core/           → @cloudboyredex/suitener-core   (library, the actual logic)
+│   ├── core/           → suitener-core   (library, the actual logic)
 │   └── cli/            → suitener          (CLI binary, thin wrapper around core)
 ```
 
-`@cloudboyredex/suitener-core` exports:
+`suitener-core` exports:
 
 ```ts
-import { introspect, runTests, generateStubs, wrap } from "@cloudboyredex/suitener-core";
+import { introspect, runTests, generateStubs, wrap } from "suitener-core";
 
 const project = await introspect("./");
 const results = await runTests(project);
@@ -190,17 +190,17 @@ No dependencies beyond Bun's standard library if possible.
 ## Distribution
 
 ```bash
-bun install -g suitener           # CLI binary
-bun add @cloudboyredex/suitener-core   # library consumers
+bun install -g suitener-test      # CLI binary
+bun add suitener-core             # library consumers
 ```
 
-Build pipeline: `bun build --compile` on tag push, attach binaries to GitHub Releases for direct download fallback. Both `suitener` and `@cloudboyredex/suitener-core` published to npm. Bun handles platform resolution at install time.
+Build pipeline: `bun build --compile` on tag push, attach binaries to GitHub Releases for direct download fallback. Both `suitener-test` and `suitener-core` published to npm. Bun handles platform resolution at install time.
 
 ## Repo and packages
 
 - GitHub: `cloudboy-jh/suitener`
-- npm CLI: `suitener`
-- npm library: `@cloudboyredex/suitener-core`
+- npm CLI: `suitener-test`
+- npm library: `suitener-core`
 - License: MIT
 - Versioning: semver, start at `0.1.0`, stay in `0.x` until the core API feels stable
 
