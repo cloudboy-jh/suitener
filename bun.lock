@@ -11,17 +11,17 @@
     },
     "packages/cli": {
       "name": "suitener",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "bin": {
         "suitener": "./src/index.ts",
       },
       "dependencies": {
-        "suitener-core": "0.1.3",
+        "suitener-core": "0.1.4",
       },
     },
     "packages/core": {
       "name": "suitener-core",
-      "version": "0.1.3",
+      "version": "0.1.4",
     },
   },
   "packages": {
