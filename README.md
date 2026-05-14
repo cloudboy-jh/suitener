@@ -27,7 +27,7 @@ suitener wrap "bun run dev"
 ## Install
 
 ```bash
-bun install -g suitener-test
+bun install -g suitener
 ```
 
 Library usage:
