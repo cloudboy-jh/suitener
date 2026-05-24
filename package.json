@@ -1,6 +1,6 @@
 {
   "name": "suitener",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -17,6 +17,5 @@
   "devDependencies": {
     "@types/bun": "latest",
     "typescript": "latest"
-  },
-  "version": "0.0.2"
+  }
 }

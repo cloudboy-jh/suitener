@@ -1,12 +1,12 @@
 {
   "name": "suitener",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "bin": {
     "suitener": "./src/index.ts"
   },
   "dependencies": {
-    "suitener-core": "0.1.5"
+    "suitener-core": "0.1.6"
   },
   "scripts": {
     "build": "bun build src/index.ts --compile --outfile dist/suitener"
