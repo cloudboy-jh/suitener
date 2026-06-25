@@ -24,24 +24,30 @@ test("parses explicit commands", () => {
 
 test("renders passed check output", () => {
   const output = renderCheck(result({ failed: 0 }), project(), { color: false });
-  expect(output).toContain("passed  12 tests / 12 pass / 0 fail");
+  expect(output).toContain("✓ passed");
+  expect(output).toContain("12 tests · 12 pass · 0 fail · 290ms");
   expect(output).toContain("summary");
   expect(output).toContain("  project  repo");
   expect(output).toContain("  report   suitener-results/latest.json");
+  expect(output).toContain("  ✓ api.test.ts");
 });
 
 test("renders failed check output", () => {
   const output = renderCheck(result({ failed: 2 }), project(), { color: false });
-  expect(output).toContain("failed  12 tests / 10 pass / 2 fail");
+  expect(output).toContain("✗ failed");
+  expect(output).toContain("12 tests · 10 pass · 2 fail · 290ms");
   expect(output).toContain("summary");
-  expect(output).toContain("  error    api.test.ts");
+  expect(output).toContain("  ✗ api.test.ts");
+  expect(output).toContain("    boom");
 });
 
 test("renders stubs output", () => {
   const output = renderStubs(result({ mode: "generated", total: 1, passed: 0, failed: 0, tests: [{ name: "library-smoke.test.ts", status: "skip", duration_ms: 0 }] }), project({ projectType: "library" }), { color: false });
-  expect(output).toContain("stubs   1 generated");
+  expect(output).toContain("○ stubs");
+  expect(output).toContain("1 generated");
   expect(output).toContain("summary");
   expect(output).toContain("  files    suitener-stubs/library-smoke.test.ts");
+  expect(output).toContain("  ○ library-smoke.test.ts");
 });
 
 test("renders inspect output", () => {
@@ -61,7 +67,9 @@ test("renders verbose dev section", () => {
 
 test("renders wrap summary", () => {
   const output = renderWrapSummary(result({ failed: 2 }), { color: false });
-  expect(output).toContain("suitener  12 tests / 10 pass / 2 fail / last failure api.test.ts");
+  expect(output).toContain("suitener");
+  expect(output).toContain("12 tests · 10 pass · 2 fail");
+  expect(output).toContain("  ✗ api.test.ts: boom");
 });
 
 function project(overrides: Partial<ProjectIntrospection> = {}): ProjectIntrospection {

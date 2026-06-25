@@ -1,4 +1,4 @@
-import type { ProjectIntrospection, SuitenerResult } from "suitener-core";
+import type { ProjectIntrospection, SuitenerResult, TestResult, TestStatus } from "suitener-core";
 import { color } from "./colors";
 
 export interface RenderOptions {
@@ -23,13 +23,32 @@ export function projectName(project: ProjectIntrospection): string {
   return project.name;
 }
 
+export function statusIcon(status: TestStatus, enabled = true): string {
+  const icons: Record<TestStatus, string> = { pass: "✓", fail: "✗", skip: "○" };
+  const colorNames: Record<TestStatus, "green" | "pink" | "blue"> = { pass: "green", fail: "pink", skip: "blue" };
+  return color(enabled, icons[status], colorNames[status]);
+}
+
 export function testRatio(result: SuitenerResult, enabled = true): string {
   const total = `${result.summary.total} tests`;
   const pass = color(enabled, `${result.summary.passed} pass`, "green");
   const fail = result.summary.failed > 0
     ? color(enabled, `${result.summary.failed} fail`, "pink")
     : `${result.summary.failed} fail`;
-  return `${total} / ${pass} / ${fail}`;
+  const duration = `${result.summary.duration_ms}ms`;
+  return `${total} · ${pass} · ${fail} · ${duration}`;
+}
+
+export function testLine(test: TestResult, enabled = true): string {
+  const icon = statusIcon(test.status, enabled);
+  const duration = test.duration_ms > 0 ? `  ${test.duration_ms}ms` : "";
+  return `  ${icon} ${test.name}${duration}`;
+}
+
+export function errorLine(test: TestResult, _enabled = true): string {
+  if (!test.error) return "";
+  const lines = test.error.split("\n").slice(0, 3);
+  return lines.map(line => `    ${line}`).join("\n");
 }
 
 export function firstError(result: SuitenerResult): string | undefined {
